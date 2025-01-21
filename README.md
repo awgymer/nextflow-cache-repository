@@ -5,7 +5,6 @@ This repo contains a small test workflow which should demonstrate the behaviour 
 There is some unclear behaviour where the `-resume` functionality does not seem to behave as one would expect. 
 
 
-
 ## Demonstrating the behaviour
 
 The behaviour can be reproduced using the following steps:
@@ -119,6 +118,9 @@ Launching `main.nf` [loving_volhard] DSL2 - revision: 914c9f6501
 [66/438371] PRINTMEM2 (3) [100%] 3 of 3, cached: 3 ✔
 ```
 
+
+### Further scenarios
+
 If you follow this set of similar steps you will find that you do not need to remove the work dir to achieve expected caching behaviour, but simply removing `-resume` will help:
 
 - ensure `docker` daemon is not running (quit docker desktop)
@@ -129,6 +131,17 @@ If you follow this set of similar steps you will find that you do not need to re
 - rerun again with: `nextflow run main.nf -profile docker -resume`
 
 Here you will see that the last run is properly cached without needing to reset the work dir.
+
+
+### Without docker failure
+
+If you remove the initial step to create a docker failure you will see proper caching regardless:
+
+- ensure `docker` daemon is running
+- run: `nextflow run main.nf -profile docker`
+- rerun again with: `nextflow run main.nf -profile docker -resume`
+
+You will see that the second run here uses the cache as expected
 
 System:
 
