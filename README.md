@@ -119,6 +119,16 @@ Launching `main.nf` [loving_volhard] DSL2 - revision: 914c9f6501
 [66/438371] PRINTMEM2 (3) [100%] 3 of 3, cached: 3 ✔
 ```
 
+If you follow this set of similar steps you will find that you do not need to remove the work dir to achieve expected caching behaviour, but simply removing `-resume` will help:
+
+- ensure `docker` daemon is not running (quit docker desktop)
+- run the pipeline with `docker` profile: `nextflow run main.nf -profile docker`
+- ensure `docker` daemon is running
+- rerun with `-resume`: `nextflow run main.nf -profile docker -resume`
+- rerun again: `nextflow run main.nf -profile docker`
+- rerun again with: `nextflow run main.nf -profile docker -resume`
+
+Here you will see that the last run is properly cached without needing to reset the work dir.
 
 System:
 
